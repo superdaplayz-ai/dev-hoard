@@ -13,7 +13,8 @@ import { useSnippetsStore } from '@/store/snippetsStore';
 import { LANGUAGES } from '@/data/languages';
 
 export function AppSidebar() {
-  const { collapsed } = useSidebar();
+  const { state } = useSidebar();
+  const collapsed = state === 'collapsed';
   const { filters, setFilters, allTags, allLanguages } = useSnippetsStore();
   const tags = allTags();
   const langs = Array.from(new Set([...LANGUAGES, ...allLanguages()]));
@@ -33,9 +34,9 @@ export function AppSidebar() {
   const isActive = (value: string, inList: string[]) => inList.includes(value);
 
   return (
-    <Sidebar className={collapsed ? 'w-14' : 'w-64'} collapsible>
+    <Sidebar className={collapsed ? 'w-14' : 'w-64'} collapsible="icon">
       <SidebarContent>
-        <SidebarGroup defaultOpen>
+        <SidebarGroup>
           <SidebarGroupLabel>Språk</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
