@@ -6,7 +6,6 @@ import { Separator } from '@/components/ui/separator';
 import { Copy, Edit, Trash2, Star, History } from 'lucide-react';
 import { Snippet } from '@/data/db';
 import { useToast } from '@/hooks/use-toast';
-import { Highlight, themes } from 'prism-react-renderer';
 import { format } from 'date-fns';
 
 export function SnippetCard({
@@ -64,19 +63,7 @@ export function SnippetCard({
               </Button>
             </div>
             <div className="p-3">
-              <Highlight theme={themes.nightOwl as any} code={cb.code} language={(cb.language || 'javascript').toLowerCase() as any}>
-                {({ className, style, tokens, getLineProps, getTokenProps }) => (
-                  <pre className={className + ' overflow-auto'} style={style}>
-                    {tokens.map((line, i) => (
-                      <div key={i} {...getLineProps({ line, key: i })}>
-                        {line.map((token, key) => (
-                          <span key={key} {...getTokenProps({ token, key })} />
-                        ))}
-                      </div>
-                    ))}
-                  </pre>
-                )}
-              </Highlight>
+              <pre className="font-mono text-sm overflow-auto"><code>{cb.code}</code></pre>
             </div>
           </div>
         ))}
