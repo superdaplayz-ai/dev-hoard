@@ -11,6 +11,7 @@ import {
 } from '@/components/ui/sidebar';
 import { useSnippetsStore } from '@/store/snippetsStore';
 import { LANGUAGES } from '@/data/languages';
+import { Link } from 'react-router-dom';
 
 export function AppSidebar() {
   const { state } = useSidebar();
@@ -33,39 +34,57 @@ export function AppSidebar() {
 
   const isActive = (value: string, inList: string[]) => inList.includes(value);
 
-  return (
-    <Sidebar className={collapsed ? 'w-14' : 'w-64'} collapsible="icon">
-      <SidebarContent>
-        <SidebarGroup>
-          <SidebarGroupLabel>Språk</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {langs.map((l) => (
-                <SidebarMenuItem key={l}>
-                  <SidebarMenuButton asChild className={isActive(l, filters.languages) ? 'bg-muted text-primary' : ''}>
-                    <button onClick={() => toggleLang(l)}>{l}</button>
+    return (
+      <Sidebar className={collapsed ? 'w-14' : 'w-64'} collapsible="icon">
+        <SidebarContent>
+          <SidebarGroup>
+            <SidebarGroupLabel>Navigasjon</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                <SidebarMenuItem>
+                  <SidebarMenuButton asChild>
+                    <Link to="/">Alle</Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+                <SidebarMenuItem>
+                  <SidebarMenuButton asChild>
+                    <Link to="/shared">Delte</Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
 
-        <SidebarGroup>
-          <SidebarGroupLabel>Tags</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {tags.map((t) => (
-                <SidebarMenuItem key={t}>
-                  <SidebarMenuButton asChild className={isActive(t, filters.tags) ? 'bg-muted text-primary' : ''}>
-                    <button onClick={() => toggleTag(t)}>{t}</button>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-      </SidebarContent>
-    </Sidebar>
-  );
+          <SidebarGroup>
+            <SidebarGroupLabel>Språk</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {langs.map((l) => (
+                  <SidebarMenuItem key={l}>
+                    <SidebarMenuButton asChild className={isActive(l, filters.languages) ? 'bg-muted text-primary' : ''}>
+                      <button onClick={() => toggleLang(l)}>{l}</button>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+
+          <SidebarGroup>
+            <SidebarGroupLabel>Tags</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {tags.map((t) => (
+                  <SidebarMenuItem key={t}>
+                    <SidebarMenuButton asChild className={isActive(t, filters.tags) ? 'bg-muted text-primary' : ''}>
+                      <button onClick={() => toggleTag(t)}>{t}</button>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        </SidebarContent>
+      </Sidebar>
+    );
 }
