@@ -12,6 +12,13 @@ import {
 import { useSnippetsStore } from '@/store/snippetsStore';
 import { LANGUAGES } from '@/data/languages';
 import { Link } from 'react-router-dom';
+import { Home, FileText, Share2 } from 'lucide-react';
+
+const navigationItems = [
+  { title: "Hjem", url: "/", icon: Home },
+  { title: "Mine Snippets", url: "/snippets", icon: FileText },
+  { title: "Delte", url: "/shared", icon: Share2 },
+];
 
 export function AppSidebar() {
   const { state } = useSidebar();
@@ -41,16 +48,16 @@ export function AppSidebar() {
             <SidebarGroupLabel>Navigasjon</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
-                <SidebarMenuItem>
-                  <SidebarMenuButton asChild>
-                    <Link to="/">Alle</Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-                <SidebarMenuItem>
-                  <SidebarMenuButton asChild>
-                    <Link to="/shared">Delte</Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
+                {navigationItems.map((item) => (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton asChild>
+                      <Link to={item.url} className="flex items-center gap-2">
+                        <item.icon className="h-4 w-4" />
+                        {!collapsed && <span>{item.title}</span>}
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
               </SidebarMenu>
             </SidebarGroupContent>
           </SidebarGroup>
