@@ -29,10 +29,21 @@ export function SnippetCard({
   };
 
   return (
-    <Card className="shadow-sm hover:shadow-md transition-shadow animate-enter">
-      <CardHeader className="flex flex-row items-center justify-between">
-        <CardTitle className="text-lg font-semibold">{snippet.title}</CardTitle>
-        <div className="flex items-center gap-2">
+    <div className="space-y-6">
+      {/* Title and Actions */}
+      <div className="flex items-start justify-between">
+        <div>
+          <h2 className="text-2xl font-bold text-primary mb-2">{snippet.title}</h2>
+          {snippet.description && (
+            <p className="text-muted-foreground mb-3">{snippet.description}</p>
+          )}
+          <div className="flex flex-wrap gap-2">
+            {snippet.tags.map((t) => (
+              <Badge key={t} variant="secondary" className="text-xs">{t}</Badge>
+            ))}
+          </div>
+        </div>
+        <div className="flex items-center gap-1">
           <Button variant={snippet.favorite ? 'secondary' : 'ghost'} size="icon" onClick={onToggleFavorite} aria-label="Favoritt">
             <Star className="h-4 w-4" />
           </Button>
@@ -46,33 +57,51 @@ export function SnippetCard({
             <Trash2 className="h-4 w-4" />
           </Button>
         </div>
-      </CardHeader>
-      <CardContent className="space-y-3">
-        <div className="flex flex-wrap gap-2">
-          {snippet.tags.map((t) => (
-            <Badge key={t} variant="secondary">{t}</Badge>
-          ))}
-        </div>
+      </div>
 
+      {/* Code Blocks */}
+      <div className="space-y-4">
         {snippet.codeBlocks.map((cb) => (
-          <div key={cb.id} className="rounded-md border bg-card">
-            <div className="flex items-center justify-between px-3 py-2 border-b">
-              <span className="text-xs uppercase tracking-wide text-muted-foreground">{cb.language}</span>
-              <Button size="sm" variant="outline" className="gap-2" onClick={() => copyText(cb.code)}>
-                <Copy className="h-3 w-3" /> Kopier
-              </Button>
+          <div key={cb.id} className="border border-border rounded-lg overflow-hidden">
+            {/* Code Header */}
+            <div className="bg-muted/30 px-4 py-3 border-b border-border">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <span className="font-mono text-sm font-medium text-primary">&lt;{cb.language}&gt;</span>
+                  <span className="text-sm text-muted-foreground">
+                    {cb.language.charAt(0).toUpperCase() + cb.language.slice(1)} kode
+                  </span>
+                </div>
+                <Button 
+                  size="sm" 
+                  variant="outline" 
+                  className="h-8 gap-2 bg-background" 
+                  onClick={() => copyText(cb.code)}
+                >
+                  <Copy className="h-3 w-3" />
+                  <span className="text-xs">Kopier</span>
+                </Button>
+              </div>
             </div>
-            <div className="p-3">
-              <pre className="font-mono text-sm overflow-auto"><code>{cb.code}</code></pre>
+            
+            {/* Code Content */}
+            <div className="bg-muted/10 p-4">
+              <pre className="font-mono text-sm leading-relaxed text-foreground overflow-x-auto">
+                <code>{cb.code}</code>
+              </pre>
             </div>
           </div>
         ))}
-      </CardContent>
-      <CardFooter className="flex items-center justify-between text-xs text-muted-foreground">
-        <div>
-          Lagt til {format(snippet.createdAt, 'yyyy-MM-dd HH:mm')} • Sist endret {format(snippet.updatedAt, 'yyyy-MM-dd HH:mm')}
+      </div>
+
+      {/* Footer */}
+      <div className="pt-4 border-t border-border">
+        <div className="flex items-center justify-between text-xs text-muted-foreground">
+          <span>
+            Lagt til {format(snippet.createdAt, 'dd.MM.yyyy')} • Sist endret {format(snippet.updatedAt, 'dd.MM.yyyy')}
+          </span>
         </div>
-      </CardFooter>
-    </Card>
+      </div>
+    </div>
   );
 }
