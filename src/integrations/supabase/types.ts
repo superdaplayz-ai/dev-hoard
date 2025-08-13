@@ -14,7 +14,144 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      code_blocks: {
+        Row: {
+          code: string
+          id: string
+          language: string
+          order_index: number
+          snippet_id: string
+        }
+        Insert: {
+          code: string
+          id?: string
+          language: string
+          order_index?: number
+          snippet_id: string
+        }
+        Update: {
+          code?: string
+          id?: string
+          language?: string
+          order_index?: number
+          snippet_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "code_blocks_snippet_id_fkey"
+            columns: ["snippet_id"]
+            isOneToOne: false
+            referencedRelation: "snippets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      snippet_versions: {
+        Row: {
+          description: string
+          id: string
+          snippet_id: string
+          tags: string[]
+          timestamp: string
+          title: string
+        }
+        Insert: {
+          description: string
+          id?: string
+          snippet_id: string
+          tags: string[]
+          timestamp?: string
+          title: string
+        }
+        Update: {
+          description?: string
+          id?: string
+          snippet_id?: string
+          tags?: string[]
+          timestamp?: string
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "snippet_versions_snippet_id_fkey"
+            columns: ["snippet_id"]
+            isOneToOne: false
+            referencedRelation: "snippets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      snippets: {
+        Row: {
+          created_at: string
+          description: string
+          favorite: boolean
+          id: string
+          language: string[]
+          order_index: number
+          project: string | null
+          tags: string[]
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string
+          favorite?: boolean
+          id?: string
+          language?: string[]
+          order_index?: number
+          project?: string | null
+          tags?: string[]
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          favorite?: boolean
+          id?: string
+          language?: string[]
+          order_index?: number
+          project?: string | null
+          tags?: string[]
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      version_code_blocks: {
+        Row: {
+          code: string
+          id: string
+          language: string
+          order_index: number
+          version_id: string
+        }
+        Insert: {
+          code: string
+          id?: string
+          language: string
+          order_index?: number
+          version_id: string
+        }
+        Update: {
+          code?: string
+          id?: string
+          language?: string
+          order_index?: number
+          version_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "version_code_blocks_version_id_fkey"
+            columns: ["version_id"]
+            isOneToOne: false
+            referencedRelation: "snippet_versions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
